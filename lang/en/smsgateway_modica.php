@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component smsgateway_modica, language 'en'.
+ * Strings for component smsgateway_whatsapp, language 'en'.
  *
- * @package    smsgateway_modica
- * @copyright  2025 Safat Shahin <safat.shahin@moodle.com>
+ * @package    smsgateway_whatsapp
+ * @copyright  2025 Kewayne Davidson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['modica_application_name'] = 'Modica application name';
-$string['modica_application_password'] = 'Modica application password';
-$string['modica_information'] = 'Complete the following fields using the information provided by Modica';
-$string['modica_url'] = 'Modica API URL';
-$string['pluginname'] = 'Modica';
-$string['privacy:metadata'] = 'The Modica SMS gateway plugin does not store any personal data.';
+$string['pluginname'] = 'WhatsApp Gateway';
+$string['whatsapp_url'] = 'WhatsApp API URL';
+$string['whatsapp_instance_id'] = 'Instance ID';
+$string['whatsapp_access_token'] = 'Access Token';
+$string['whatsapp_information'] = 'Complete the following fields using the information from your WhatsApp API provider.';
+$string['privacy:metadata'] = 'The WhatsApp Gateway plugin does not store any personal data itself, but passes messages to the configured WhatsApp API provider.';
