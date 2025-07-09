@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information for smsgateway_modica.
+ * Version information for smsgateway_whatsapp.
  *
- * @package    smsgateway_modica
- * @copyright  2025 Safat Shahin <safat.shahin@moodle.com>
+ * @package    smsgateway_whatsapp
+ * @copyright  2025 Kewayne Davidson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'smsgateway_modica';
+$plugin->component = 'smsgateway_whatsapp'; 
 $plugin->version = 2025041400;
 $plugin->requires = 2025040800;
 $plugin->maturity = MATURITY_STABLE;
