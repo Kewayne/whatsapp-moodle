@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Hook listener callbacks for Modica sms gateway.
+ * Hook listener callbacks for WhatsApp sms gateway.
  *
- * @package    smsgateway_modica
- * @copyright  2025 Safat Shahin <safat.shahin@moodle.com>
+ * @package    smsgateway_whatsapp
+ * @copyright  2025 Kewayne Davidson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -27,6 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 $callbacks = [
     [
         'hook' => \core_sms\hook\after_sms_gateway_form_hook::class,
-        'callback' => \smsgateway_modica\hook_listener::class . '::set_form_definition_for_modica_sms_gateway',
+        'callback' => \smsgateway_whatsapp\hook_listener::class . '::set_form_definition_for_whatsapp_sms_gateway', // Changed
     ],
 ];
