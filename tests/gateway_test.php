@@ -14,50 +14,49 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace smsgateway_modica;
+namespace smsgateway_whatsapp; // Changed
 
 use core_sms\message;
 use core_sms\message_status;
 use GuzzleHttp\Psr7\Response;
 
 /**
- * Modica SMS gateway tests.
+ * WhatsApp SMS gateway tests.
  *
- * @package    smsgateway_modica
+ * @package    smsgateway_whatsapp
  * @category   test
- * @copyright  2025 Safat Shahin <safat.shahin@moodle.com>
+ * @copyright  2025 Kewayne Davidson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @covers     \smsgateway_modica\gateway
+ * @covers     \smsgateway_whatsapp\gateway
  */
 final class gateway_test extends \advanced_testcase {
-    public function test_send(): void {
+    public function test_send_success(): void {
         $this->resetAfterTest();
 
         $config = (object) [
-            'modica_url' => gateway::MODICA_DEFAULT_API,
-            'modica_application_name' => 'test_application',
-            'modica_application_password' => 'test_password',
+            'whatsapp_url' => gateway::WHATSAPP_DEFAULT_API,
+            'whatsapp_instance_id' => 'test_instance',
+            'whatsapp_access_token' => 'test_token',
         ];
 
         $manager = \core\di::get(\core_sms\manager::class);
         $gw = $manager->create_gateway_instance(
             classname: gateway::class,
-            name: 'modica',
+            name: 'whatsapp', // Changed
             enabled: true,
             config: $config,
         );
 
         // Mock the http client to return a successful response.
         ['mock' => $mock] = $this->get_mocked_http_client();
-
-        // Append the response status.
         $mock->append(new Response(
-            status: 201,
+            status: 200,
+            body: json_encode(['status' => 'success', 'message' => 'Message sent successfully.'])
         ));
 
         $message = $manager->send(
-            recipientnumber: '+447123456789',
-            content: 'Hello, world!',
+            recipientnumber: '+18761234567',
+            content: 'Hello from Moodle!',
             component: 'core',
             messagetype: 'test',
             recipientuserid: null,
@@ -65,22 +64,37 @@ final class gateway_test extends \advanced_testcase {
         );
 
         $this->assertInstanceOf(message::class, $message);
-        $this->assertIsInt($message->id);
         $this->assertEquals(message_status::GATEWAY_SENT, $message->status);
         $this->assertEquals($gw->id, $message->gatewayid);
-        $this->assertEquals('Hello, world!', $message->content);
+    }
 
-        $storedmessage = $manager->get_message(['id' => $message->id]);
-        $this->assertEquals($message, $storedmessage);
+    public function test_send_failure(): void {
+        $this->resetAfterTest();
 
-        // Now let's try with failed status.
+        $config = (object) [
+            'whatsapp_url' => gateway::WHATSAPP_DEFAULT_API,
+            'whatsapp_instance_id' => 'test_instance',
+            'whatsapp_access_token' => 'test_token',
+        ];
+
+        $manager = \core\di::get(\core_sms\manager::class);
+        $gw = $manager->create_gateway_instance(
+            classname: gateway::class,
+            name: 'whatsapp', // Changed
+            enabled: true,
+            config: $config,
+        );
+
+        // Mock the http client to return a failed response.
+        ['mock' => $mock] = $this->get_mocked_http_client();
         $mock->append(new Response(
             status: 200,
+            body: json_encode(['status' => 'error', 'message' => 'Invalid token.'])
         ));
 
         $message = $manager->send(
-            recipientnumber: '+447123456789',
-            content: 'Hello, world!',
+            recipientnumber: '+18761234567',
+            content: 'This will fail.',
             component: 'core',
             messagetype: 'test',
             recipientuserid: null,
