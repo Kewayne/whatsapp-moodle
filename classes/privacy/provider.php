@@ -14,15 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace smsgateway_modica\privacy;
+namespace smsgateway_whatsapp\privacy; // Changed
 
 use core_privacy\local\metadata\null_provider;
 
 /**
- * Privacy Subsystem for smsgateway_modica implementing null_provider.
+ * Privacy Subsystem for smsgateway_whatsapp implementing null_provider.
  *
- * @package    smsgateway_modica
- * @copyright  2025 Safat Shahin <safat.shahin@moodle.com>
+ * @package    smsgateway_whatsapp
+ * @copyright  2025 Kewayne Davidson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @codeCoverageIgnore
  */
