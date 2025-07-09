@@ -14,15 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace smsgateway_modica;
+namespace smsgateway_whatsapp; // Changed from smsgateway_modica
 
 use core_sms\hook\after_sms_gateway_form_hook;
 
 /**
- * Hook listener for Modica sms gateway.
+ * Hook listener for WhatsApp sms gateway.
  *
- * @package    smsgateway_modica
- * @copyright  2025 Safat Shahin <safat.shahin@moodle.com>
+ * @package    smsgateway_whatsapp
+ * @copyright  2025 Kewayne Davidson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class hook_listener {
@@ -31,55 +31,51 @@ class hook_listener {
      *
      * @param after_sms_gateway_form_hook $hook The hook to add to sms gateway setup.
      */
-    public static function set_form_definition_for_modica_sms_gateway(after_sms_gateway_form_hook $hook): void {
-        if ($hook->plugin !== 'smsgateway_modica') {
+    public static function set_form_definition_for_whatsapp_sms_gateway(after_sms_gateway_form_hook $hook): void {
+        // Only add these settings for our plugin.
+        if ($hook->plugin !== 'smsgateway_whatsapp') { // Changed from smsgateway_modica
             return;
         }
 
         $mform = $hook->mform;
 
-        $mform->addElement('static', 'information', get_string('modica_information', 'smsgateway_modica'));
+        $mform->addElement('static', 'information', get_string('whatsapp_information', 'smsgateway_whatsapp'));
 
+        // API URL setting.
         $mform->addElement(
             'text',
-            'modica_url',
-            get_string('modica_url', 'smsgateway_modica'),
-            'maxlength="255" size="20"',
+            'whatsapp_url', // Changed
+            get_string('whatsapp_url', 'smsgateway_whatsapp'),
+            'maxlength="255" size="50"',
         );
-        $mform->setType('modica_url', PARAM_URL);
-        $mform->addRule('modica_url', get_string('maximumchars', '', 255), 'maxlength', 255);
-        $mform->addRule('modica_url', null, 'required');
+        $mform->setType('whatsapp_url', PARAM_URL);
+        $mform->addRule('whatsapp_url', get_string('maximumchars', '', 255), 'maxlength', 255);
+        $mform->addRule('whatsapp_url', null, 'required');
         $mform->setDefault(
-            elementName: 'modica_url',
-            defaultValue: gateway::MODICA_DEFAULT_API,
+            elementName: 'whatsapp_url',
+            defaultValue: gateway::WHATSAPP_DEFAULT_API,
         );
 
+        // Instance ID setting.
         $mform->addElement(
             'text',
-            'modica_application_name',
-            get_string('modica_application_name', 'smsgateway_modica'),
-            'maxlength="255" size="20"',
+            'whatsapp_instance_id', // Changed
+            get_string('whatsapp_instance_id', 'smsgateway_whatsapp'),
+            'maxlength="255" size="50"',
         );
-        $mform->setType('modica_application_name', PARAM_TEXT);
-        $mform->addRule('modica_application_name', get_string('maximumchars', '', 255), 'maxlength', 255);
-        $mform->addRule('modica_application_name', null, 'required');
-        $mform->setDefault(
-            elementName: 'modica_application_name',
-            defaultValue: '',
-        );
+        $mform->setType('whatsapp_instance_id', PARAM_TEXT);
+        $mform->addRule('whatsapp_instance_id', get_string('maximumchars', '', 255), 'maxlength', 255);
+        $mform->addRule('whatsapp_instance_id', null, 'required');
 
+        // Access Token setting.
         $mform->addElement(
             'passwordunmask',
-            'modica_application_password',
-            get_string('modica_application_password', 'smsgateway_modica'),
-            'maxlength="255" size="20"',
+            'whatsapp_access_token', // Changed
+            get_string('whatsapp_access_token', 'smsgateway_whatsapp'),
+            'maxlength="255" size="50"',
         );
-        $mform->setType('modica_application_password', PARAM_TEXT);
-        $mform->addRule('modica_application_password', get_string('maximumchars', '', 255), 'maxlength', 255);
-        $mform->addRule('modica_application_password', null, 'required');
-        $mform->setDefault(
-            elementName: 'modica_application_password',
-            defaultValue: '',
-        );
+        $mform->setType('whatsapp_access_token', PARAM_TEXT);
+        $mform->addRule('whatsapp_access_token', get_string('maximumchars', '', 255), 'maxlength', 255);
+        $mform->addRule('whatsapp_access_token', null, 'required');
     }
 }
